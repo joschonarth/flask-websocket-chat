@@ -34,8 +34,25 @@ ul#messages li {
     word-wrap: break-word;
     position: relative;
     font-size: 14px;
+}
+
+ul#messages li.left {
+    align-self: flex-start;
+    background-color: #444;
+    color: #fff;
+}
+
+ul#messages li.right {
+    align-self: flex-end;
     background-color: #8257E5;
     color: #fff;
+}
+
+ul#messages li.system {
+    align-self: center;
+    background-color: transparent;
+    color: gray;
+    font-style: italic;
 }
 
 form#form {

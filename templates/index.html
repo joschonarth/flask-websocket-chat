@@ -27,20 +27,47 @@
 
        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
        <script>
-           var socket = io.connect('http://' + document.domain + ':' + location.port);
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        var currentUsername = '';
 
-           socket.on('message', function(msg) {
-               var ul = document.getElementById('messages');
-               var li = document.createElement('li');
-               li.appendChild(document.createTextNode(msg));
-               ul.appendChild(li);
-           });
+        function displayMessage(data) {
+            var ul = document.getElementById('messages');
+            var li = document.createElement('li');
 
-           document.getElementById('form').onsubmit = function() {
-               socket.emit('message', document.getElementById('input').value);
-               document.getElementById('input').value = '';
-               return false;
-           };
-       </script>
+            li.className = data.system ? 'system' : (data.username === currentUsername ? 'right' : 'left');
+
+            var content = data.system
+                ? `${data.msg} (${data.time})`
+                : `<strong>${data.username}</strong>: ${data.msg}`;
+
+            li.innerHTML = content;
+            ul.appendChild(li);
+
+            ul.scrollTop = ul.scrollHeight;
+        }
+
+        document.getElementById('set-username').onclick = function () {
+            var username = document.getElementById('username-input').value.trim();
+            if (username) {
+                currentUsername = username;
+                document.getElementById('username-modal').style.display = 'none';
+                socket.emit('set_username', { username });
+            }
+        };
+
+        socket.on('message', function (data) {
+            displayMessage(data);
+        });
+
+        document.getElementById('form').onsubmit = function () {
+            var input = document.getElementById('input');
+            var msg = input.value.trim();
+            if (msg) {
+                socket.emit('message', { msg });
+                input.value = '';
+            }
+            return false;
+        };
+    </script>
    </body>
 </html>
