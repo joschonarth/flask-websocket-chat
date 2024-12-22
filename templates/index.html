@@ -8,10 +8,22 @@
        <link rel="stylesheet" href="/static/styles.css">
    </head>
    <body>
-       <ul id="messages"></ul>
-       <form id="form" action="">
-           <input id="input" autocomplete="off" /><button>Enviar</button>
-       </form>
+        <div id="chat-container">
+            <ul id="messages"></ul>
+            <form id="form" action="">
+                <input id="input" autocomplete="off" placeholder="Digite sua mensagem" />
+                <button>Enviar</button>
+            </form>
+        </div>
+
+        <div id="username-modal">
+            <div id="modal-content">
+                <h2>Bem-vindo!</h2>
+                <p>Digite seu nome:</p>
+                <input id="username-input" type="text" placeholder="Seu nome">
+                <button id="set-username">Entrar</button>
+            </div>
+        </div>
 
        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
        <script>
