@@ -2,6 +2,8 @@
 
 Este projeto implementa um sistema de chat em tempo real utilizando Flask e WebSockets. Ele permite que múltiplos usuários se conectem ao mesmo canal de chat e troquem mensagens instantaneamente. 📨
 
+![Chat](assets/chat.png)
+
 ## 🚀 Tecnologias Utilizadas
 
 - 🐍 **Python**: Linguagem principal para o desenvolvimento.
