@@ -1,7 +1,13 @@
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
+from datetime import datetime
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 socketio = SocketIO(app)
 
 connected_users = {}
@@ -20,26 +26,30 @@ def handle_disconnect():
     if username:
         emit('message', {
             'msg': f"{username} saiu do chat.",
+            'time': datetime.now().strftime('%H:%M'),
             'system': True
         }, broadcast=True)
 
 @socketio.on('set_username')
 def set_username(data):
-    username = data.get('username')
+    username = data.get('username', 'Usuário Anônimo')
     connected_users[request.sid] = username
     emit('message', {
         'msg': f"{username} entrou no chat.",
+        'time': datetime.now().strftime('%H:%M'),
         'system': True
     }, broadcast=True)
 
 @socketio.on('message')
 def handle_message(data):
-    username = connected_users.get(request.sid)
+    username = connected_users.get(request.sid, 'Anônimo')
     msg = data.get('msg', '')
+    timestamp = datetime.now().strftime('%H:%M')
 
     emit('message', {
         'username': username,
-        'msg': msg
+        'msg': msg,
+        'time': timestamp
     }, broadcast=True)
 
 if __name__ == '__main__':

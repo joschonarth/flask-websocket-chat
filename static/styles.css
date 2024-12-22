@@ -55,6 +55,12 @@ ul#messages li.system {
     font-style: italic;
 }
 
+.timestamp {
+    font-size: 0.8rem;
+    color: #bbb;
+    margin-left: 10px;
+}
+
 form#form {
     display: flex;
     gap: 10px;
